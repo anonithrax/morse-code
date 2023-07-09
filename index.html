@@ -21,6 +21,14 @@
             resize: none;
             box-sizing: border-box;
         }
+        #copy {
+            color: #0f0;
+            background-color: #000;
+            border: 1px solid #0f0;
+            margin: 10px 0;
+            padding: 10px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -28,6 +36,7 @@
 
     <textarea id="input" placeholder="Enter text or Morse code..."></textarea>
     <textarea id="output" readonly></textarea>
+    <button id="copy">Copy</button>
 
     <script>
         const morseCodeMap = {
@@ -46,6 +55,7 @@
 
         const input = document.getElementById('input');
         const output = document.getElementById('output');
+        const copy = document.getElementById('copy');
 
         input.addEventListener('input', function () {
             const inputValue = input.value.trim().toUpperCase();
@@ -63,6 +73,11 @@
             }
 
             output.value = result;
+        });
+
+        copy.addEventListener('click', function() {
+            output.select();
+            document.execCommand('copy');
         });
     </script>
 </body>
