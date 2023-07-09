@@ -3,12 +3,67 @@
 <head>
     <title>Morse Code Converter</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        body {
+            font-family: monospace;
+            background-color: #000;
+            color: #0f0;
+            padding: 20px;
+        }
+        #input, #output {
+            width: 100%;
+            padding: 10px;
+            color: #0f0;
+            background-color: #000;
+            border: 1px solid #0f0;
+            margin: 5px 0;
+            height: 200px;
+            resize: none;
+            box-sizing: border-box;
+        }
+    </style>
 </head>
 <body>
     <h1>Morse Code Converter</h1>
+
     <textarea id="input" placeholder="Enter text or Morse code..."></textarea>
     <textarea id="output" readonly></textarea>
-    <script src="main.js"></script>
+
+    <script>
+        const morseCodeMap = {
+            'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.', 'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 
+            'L': '.-..', 'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 
+            'W': '.--', 'X': '-..-', 'Y': '-.--', 'Z': '--..', '0': '-----', '1': '.----', '2': '..---', '3': '...--', '4': '....-', '5': '.....', 
+            '6': '-....', '7': '--...', '8': '---..', '9': '----.', '.': '.-.-.-', ',': '--..--', '?': '..--..', "'": '.----.', '!': '-.-.--', '/': '-..-.', 
+            '(': '-.--.', ')': '-.--.-', '&': '.-...', ':': '---...', ';': '-.-.-.', '=': '-...-', '+': '.-.-.', '-': '-....-', '_': '..--.-', 
+            '"': '.-..-.', '$': '...-..-', '@': '.--.-.', ' ': '/'
+        };
+
+        const inverseMorseCodeMap = {};
+        for (const key in morseCodeMap) {
+            inverseMorseCodeMap[morseCodeMap[key]] = key;
+        }
+
+        const input = document.getElementById('input');
+        const output = document.getElementById('output');
+
+        input.addEventListener('input', function () {
+            const inputValue = input.value.trim().toUpperCase();
+            let result = '';
+
+            if (inputValue.includes('.') || inputValue.includes('-')) { // Morse to text
+                const morseCodes = inputValue.split(' ');
+                for (const code of morseCodes) {
+                    result += inverseMorseCodeMap[code] || '';
+                }
+            } else { // Text to Morse
+                for (const char of inputValue) {
+                    result += morseCodeMap[char] + ' ';
+                }
+            }
+
+            output.value = result;
+        });
+    </script>
 </body>
 </html>
